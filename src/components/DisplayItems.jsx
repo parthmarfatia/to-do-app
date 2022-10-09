@@ -3,9 +3,9 @@ import Item from "./Item";
 import { Context } from "../Context.jsx";
 
 function DisplayItems() {
-  const { notes, setNotes } = useContext(Context);
+  const { notes } = useContext(Context);
   const listOfNotes = notes.map((note, index) => {
-    return <Item key={index} note={note.data} id={index} />;
+    return <Item key={index} note={note} id={index} />;
   });
   return <div>{listOfNotes}</div>;
 }

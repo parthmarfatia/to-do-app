@@ -3,32 +3,94 @@ import React, { useState } from "react";
 const Context = React.createContext();
 
 function ContextProvider({ children }) {
-  const [notes, setNotes] = useState([{ data: "this is some message" }]);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  function addNote() {}
+  const [notes, setNotes] = useState([]);
+  const [copyNotes, setCopyNotes] = useState(notes);
+  function addNote() {
+    setNotes((prevNotes) => [
+      ...prevNotes,
+      { data: "kendy hundi si", isEditMode: false, isChecked: false },
+    ]);
+  }
 
-  function deleteAllNotes() {}
+  function deleteAllNotes() {
+    setNotes([]);
+  }
 
-  function checkedNote(index) {}
+  function checkedNote(index) {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note, i) => {
+        if (i === index) {
+          return { ...note, isChecked: !note.isChecked };
+        }
+        return note;
+      });
+    });
+  }
 
-  function editNote(index) {}
+  function editNote(index) {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note, i) => {
+        if (i === index) {
+          return { ...note, isEditMode: true };
+        }
+        return note;
+      });
+    });
+    setCopyNotes(notes);
+  }
 
-  function saveEditNote() {}
+  function saveEditNote(index) {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note, i) => {
+        if (i === index) {
+          return { ...note, isEditMode: false };
+        }
+        return note;
+      });
+    });
+  }
 
-  function unsaveEditNote() {}
+  function unSaveEditNote(index) {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note, i) => {
+        if (i === index) {
+          return { ...copyNotes[i], isEditMode: false };
+        }
+        return note;
+      });
+    });
+  }
+
+  function handleInputChange(event, index) {
+    const { value } = event.target;
+    setNotes((prevNotes) => {
+      return prevNotes.map((note, i) => {
+        if (i === index) {
+          return { ...note, data: value };
+        }
+        return note;
+      });
+    });
+  }
+
+  function deleteSingleNote(index) {
+    setNotes((prevNotes) => {
+      return prevNotes.filter((note, i) => i !== index);
+    });
+  }
 
   return (
     <Context.Provider
       value={{
         notes,
-        setNotes,
-        isEditMode,
-        isChecked,
+        addNote,
+        deleteAllNotes,
         checkedNote,
         editNote,
         saveEditNote,
-        unsaveEditNote,
+        unSaveEditNote,
+        handleInputChange,
+        deleteSingleNote,
       }}
     >
       {children}

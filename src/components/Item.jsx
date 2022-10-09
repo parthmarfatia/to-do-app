@@ -10,31 +10,47 @@ import {
 import { Context } from "../Context";
 
 function Item(props) {
-  const { note, index } = props;
+  const { note, id } = props;
+  const { data, isEditMode, isChecked } = note;
   const {
-    isEditMode,
-    isChecked,
     checkedNote,
     editNote,
     saveEditNote,
-    unsaveEditNote,
+    unSaveEditNote,
+    handleInputChange,
+    deleteSingleNote,
   } = useContext(Context);
   return (
     <div className="flex items-center justify-center lg:mx-72 md:mx-36 pb-4 text-xl">
-      <div className="w-2/12 flex justify-center">
-        <MdCheckBox></MdCheckBox>
+      <div
+        className="w-2/12 flex justify-center"
+        onClick={() => checkedNote(id)}
+      >
+        {isChecked && <MdCheckBox />}
+        {!isChecked && <MdCheckBoxOutlineBlank />}
       </div>
-      <div className="w-8/12">{note}</div>
+      <div className="w-8/12">
+        {!isEditMode && <div>{data}</div>}
+        {isEditMode && (
+          <div>
+            <input
+              className="bg-transparent focus:outline-none"
+              value={data}
+              onChange={(event) => handleInputChange(event, id)}
+            />
+          </div>
+        )}
+      </div>
       {!isEditMode && (
         <div className="w-2/12 flex justify-around">
-          <MdOutlineModeEdit />
-          <MdDelete />
+          <MdOutlineModeEdit onClick={() => editNote(id)} />
+          <MdDelete onClick={() => deleteSingleNote(id)} />
         </div>
       )}
       {isEditMode && (
         <div className="w-2/12 flex justify-around">
-          <MdCheck />
-          <MdClose />
+          <MdCheck onClick={() => saveEditNote(id)} />
+          <MdClose onClick={() => unSaveEditNote(id)} />
         </div>
       )}
     </div>
