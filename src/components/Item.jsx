@@ -1,5 +1,10 @@
 import React from "react";
-import { MdCheckBoxOutlineBlank, MdCheckBox, MdDelete } from "react-icons/Md";
+import {
+  MdCheckBoxOutlineBlank,
+  MdCheckBox,
+  MdDelete,
+  MdOutlineModeEdit,
+} from "react-icons/Md";
 
 function Item() {
   return (
@@ -7,8 +12,9 @@ function Item() {
       <div className="w-2/12 flex justify-center">
         <MdCheckBox></MdCheckBox>
       </div>
-      <div className="w-6/12">This is my first task</div>
-      <div className="w-2/12 flex justify-center">
+      <div className="w-8/12">This is my first task</div>
+      <div className="w-2/12 flex justify-around">
+        <MdOutlineModeEdit />
         <MdDelete />
       </div>
     </div>
