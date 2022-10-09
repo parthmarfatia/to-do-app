@@ -5,7 +5,7 @@ import Title from "./components/Title";
 
 function App() {
   return (
-    <div className="box-border bg-green-900 h-screen  text-white">
+    <div className="box-border bg-green-900 h-screen text-white">
       <Title />
       <AddItemBar />
       <DisplayItems />
