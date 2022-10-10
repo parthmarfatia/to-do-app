@@ -8,7 +8,7 @@ function ContextProvider({ children }) {
   function addNote() {
     setNotes((prevNotes) => [
       ...prevNotes,
-      { data: "kendy hundi si", isEditMode: false, isChecked: false },
+      { data: "", isEditMode: true, isChecked: false },
     ]);
   }
 
