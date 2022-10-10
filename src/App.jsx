@@ -1,13 +1,13 @@
 import React from "react";
 import DisplayItems from "./components/DisplayItems";
-import AddItemBar from "./components/AddItemBar";
+import AddDeleteBar from "./components/AddDeleteBar";
 import Title from "./components/Title";
 
 function App() {
   return (
     <div className="box-border bg-green-900 h-screen text-white">
       <Title />
-      <AddItemBar />
+      <AddDeleteBar />
       <DisplayItems />
     </div>
   );
