@@ -13,7 +13,7 @@ import { Context } from "../Context";
 function Item(props) {
   const { note, id } = props;
   const { data, isEditMode, isChecked } = note;
-  const { setNotesCombined } = useContext(Context);
+  const { setNotesCombined, globalEditMode } = useContext(Context);
 
   return (
     <div className="flex items-center justify-center lg:mx-72 md:mx-36 pb-4 text-xl">
@@ -50,7 +50,11 @@ function Item(props) {
       </div>
       {!isEditMode && (
         <div className="w-2/12 flex justify-around">
-          <MdOutlineModeEdit onClick={() => setNotesCombined("editNote", id)} />
+          <MdOutlineModeEdit
+            onClick={
+              !globalEditMode ? () => setNotesCombined("editNote", id) : null
+            }
+          />
           <MdDelete onClick={() => setNotesCombined("deleteSingleNote", id)} />
         </div>
       )}

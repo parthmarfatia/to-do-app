@@ -5,16 +5,22 @@ const Context = React.createContext();
 function ContextProvider({ children }) {
   const [notes, setNotes] = useState([]);
   const [copyNotes, setCopyNotes] = useState(notes);
+  const [globalEditMode, setIsGlobalEditMode] = useState(false);
 
   function addNote() {
-    setNotes((prevNotes) => [
-      ...prevNotes,
-      { data: "", isEditMode: true, isChecked: false },
-    ]);
+    if (!globalEditMode) {
+      setNotes((prevNotes) => [
+        ...prevNotes,
+        { data: "", isEditMode: true, isChecked: false },
+      ]);
+    }
+    setIsGlobalEditMode(true);
   }
 
   function deleteCheckedNotes() {
-    setNotes((prevNotes) => prevNotes.filter((note) => !note.isChecked));
+    setNotes((prevNotes) =>
+      prevNotes.filter((note) => !note.isChecked || note.isEditMode)
+    );
   }
 
   function setNotesCombined(str, index, eventTarget) {
@@ -27,15 +33,18 @@ function ContextProvider({ children }) {
               return { ...note, isChecked: !note.isChecked };
             case "editNote":
               setCopyNotes(notes);
+              setIsGlobalEditMode(true);
               return { ...note, isEditMode: true };
             case "saveEditNote":
+              setIsGlobalEditMode(false);
               return { ...note, isEditMode: false };
             case "unSaveEditNote":
+              setIsGlobalEditMode(false);
               return { ...copyNotes[i], isEditMode: false };
             case "handleInputChange":
               return { ...note, data: value };
             case "deleteSingleNote":
-              return prevNotes.filter((note, i) => i !== index);
+              return { ...note, data: null };
             default:
               return;
           }
@@ -49,6 +58,7 @@ function ContextProvider({ children }) {
     <Context.Provider
       value={{
         notes,
+        globalEditMode,
         addNote,
         deleteCheckedNotes,
         setNotesCombined,
