@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Context = React.createContext();
 
 function ContextProvider({ children }) {
-  const [notes, setNotes] = useState([]);
-  const [copyNotes, setCopyNotes] = useState(notes);
+  const [notes, setNotes] = useState(
+    JSON.parse(localStorage.getItem("notes")) || []
+  );
+  const [copyNotes, setCopyNotes] = useState(
+    JSON.parse(localStorage.getItem("copyNotes")) || []
+  );
   const [globalEditMode, setIsGlobalEditMode] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+    localStorage.setItem("copyNotes", JSON.stringify(copyNotes));
+  }, [JSON.stringify(notes)]);
 
   function addNote() {
     if (!globalEditMode) {
