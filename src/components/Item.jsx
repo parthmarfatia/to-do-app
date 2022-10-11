@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
+import { useEffect } from "react";
 import {
   MdCheckBoxOutlineBlank,
   MdCheckBox,
@@ -14,6 +15,13 @@ function Item(props) {
   const { note, id } = props;
   const { data, isEditMode, isChecked } = note;
   const { setNotesCombined, globalEditMode } = useContext(Context);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, [globalEditMode]);
 
   return (
     <div className="flex items-center justify-center lg:mx-72 md:mx-36 pb-4 text-xl">
@@ -38,6 +46,7 @@ function Item(props) {
         {isEditMode && (
           <div>
             <input
+              ref={ref}
               className="bg-transparent focus:outline-none w-full placeholder:opacity-75 placeholder:italic"
               placeholder="Make a note here"
               value={data}
